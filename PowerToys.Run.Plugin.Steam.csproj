@@ -27,6 +27,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="U:\git\PowerToys\\src\codeAnalysis\GlobalSuppressions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Wox.Infrastructure\Wox.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Wox.Plugin\Wox.Plugin.csproj" />
   </ItemGroup>
