@@ -2,9 +2,52 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Community.PowerToys.Run.Plugin.Steam</RootNamespace>
+    <AssemblyName>Community.PowerToys.Run.Plugin.Steam</AssemblyName>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutputPath>..\..\..\..\..\$(Platform)\$(Configuration)\RunPlugins\Steam\</OutputPath>
   </PropertyGroup>
 
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Wox.Infrastructure\Wox.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Wox.Plugin\Wox.Plugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Images\Steam.dark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\Steam.light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- Clears extra files for clean build folder - from https://github.com/lin-ycv/EverythingPowerToys/blob/2371d203a551b69ddde74b3fdad8f3882d90af48/Community.PowerToys.Run.Plugin.Everything.csproj#L150 -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="del /Q &quot;$(TargetDir)*.pdb&quot;&#xD;&#xA;del /Q &quot;$(TargetDir)PowerToys*.dll&quot;&#xD;&#xA;del /Q &quot;$(TargetDir)Wox*.dll&quot;&#xD;&#xA;del /Q &quot;$(TargetDir)Ijwhost.dll&quot;&#xD;&#xA;del /Q &quot;$(TargetDir)*.xml&quot;&#xD;&#xA;del/ Q &quot;$(TargetDir)backup_restore_settings.json&quot;" />
+  </Target>
 </Project>

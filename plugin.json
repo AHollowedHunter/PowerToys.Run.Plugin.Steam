@@ -1,0 +1,13 @@
+{
+  "ID": "B9EEDE93AEAD4851A2DF9E48DC3A4512",
+  "ActionKeyword": "s/",
+  "IsGlobal": true,
+  "Name": "Steam",
+  "Author": "Ashley Cave",
+  "Version": "0.1",
+  "Language": "csharp",
+  "Website": "https://github.com/AHollowedHunter/PowerToys.Run.Plugin.Steam",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.Steam.dll",
+  "IcoPathDark": "Images\\Steam.dark.png",
+  "IcoPathLight": "Images\\Steam.light.png"
+}
