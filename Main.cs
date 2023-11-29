@@ -15,6 +15,7 @@ namespace Community.PowerToys.Run.Plugin.Steam
 
         public string Description => "Run Steam commands";
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements", Justification = ".")]
         public static string PluginID => "B9EEDE93AEAD4851A2DF9E48DC3A4512";
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -55,13 +56,11 @@ namespace Community.PowerToys.Run.Plugin.Steam
                 IcoPath = IconPath,
                 Action = c =>
                     {
-                        if (Registry.GetValue("HKEY_CLASSES_ROOT\\steam\\Shell\\Open\\Command", string.Empty, string.Empty) is not string steamPath)
+                        var ps = new ProcessStartInfo("steam://store")
                         {
-                            return false;
-                        }
-
-                        var command = steamPath.Replace("%1", "steam://store");
-                        Process.Start(command);
+                            UseShellExecute = true,
+                        };
+                        Process.Start(ps);
                         return true;
                     },
             };
