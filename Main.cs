@@ -2,9 +2,9 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Diagnostics;
+using Community.PowerToys.Run.Plugin.Steam.Constants;
 using ManagedCommon;
-using Microsoft.Win32;
+using Wox.Infrastructure;
 using Wox.Plugin;
 
 namespace Community.PowerToys.Run.Plugin.Steam
@@ -15,25 +15,52 @@ namespace Community.PowerToys.Run.Plugin.Steam
 
         public string Description => "Run Steam commands";
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements", Justification = ".")]
         public static string PluginID => "B9EEDE93AEAD4851A2DF9E48DC3A4512";
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private string IconPath { get; set; } = "Images/Steam.dark.png";
 
         private PluginInitContext _context;
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public void Init(PluginInitContext context)
         {
             this._context = context;
-            _context.API.ThemeChanged += OnThemeChanged;
-            UpdateIconPath(_context.API.GetCurrentTheme());
+            this._context.API.ThemeChanged += this.OnThemeChanged;
+            this.UpdateIconPath(this._context.API.GetCurrentTheme());
+        }
+
+        public List<Result> Query(Query query)
+        {
+            List<Result> results = new();
+
+            foreach (var command in SteamCommands.Commands)
+            {
+                var titleScore = StringMatcher.FuzzySearch(query.Search, command.Title);
+                var subTitleScore = StringMatcher.FuzzySearch(query.Search, command.SubTitle);
+                var steamScore = StringMatcher.FuzzySearch(query.Search, "Steam");
+                var scores = new[] { titleScore, subTitleScore, steamScore };
+                var score = scores.Max(s => s.Score);
+                if (scores.Any(s => s.Success))
+                {
+                    Result result = new()
+                    {
+                        Title = command.Title,
+                        Score = score,
+                        SubTitle = "Steam: " + command.SubTitle,
+                        IcoPath = this.IconPath,
+                        TitleHighlightData = titleScore.MatchData,
+                        SubTitleHighlightData = subTitleScore.MatchData,
+                        Action = command.Action,
+                    };
+                    results.Add(result);
+                }
+            }
+
+            return results;
         }
 
         private void UpdateIconPath(Theme theme)
         {
-            IconPath = theme switch
+            this.IconPath = theme switch
             {
                 Theme.Light or Theme.HighContrastWhite => "Images/Steam.light.png",
                 _ => "Images/Steam.dark.png",
@@ -42,31 +69,7 @@ namespace Community.PowerToys.Run.Plugin.Steam
 
         private void OnThemeChanged(Theme currentTheme, Theme newTheme)
         {
-            UpdateIconPath(newTheme);
-        }
-
-        public List<Result> Query(Query query)
-        {
-            List<Result> results = new();
-            Result result = new()
-            {
-                Title = "Steam Store",
-                Score = 5000,
-                SubTitle = "Steam: Open Store",
-                IcoPath = IconPath,
-                Action = c =>
-                    {
-                        var ps = new ProcessStartInfo("steam://store")
-                        {
-                            UseShellExecute = true,
-                        };
-                        Process.Start(ps);
-                        return true;
-                    },
-            };
-            results.Add(result);
-
-            return results;
+            this.UpdateIconPath(newTheme);
         }
     }
 }
