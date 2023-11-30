@@ -33,7 +33,7 @@ namespace Community.PowerToys.Run.Plugin.Steam.Constants
                 new("Open Console", "Open Console", "open/console"),
                 new("Server Browser", "Open servers browser", "open/servers"),
                 new("Steam Tools", "Open tools library", "open/tools"),
-                new("Steam Community", "Open Store Community Home", "url/CommunityHome"),
+                new("Steam Community", "Open Steam Community Home", "url/CommunityHome"),
                 new("Family Sharing", "Open Family Sharing options", "url/FamilySharing"),
                 new("Friend Activity", "Open Friends activity page", "url/SteamIDFriendsPage"),
                 new("My Profile", "Open your Steam Profile Page", "url/SteamIDMyProfile"),
