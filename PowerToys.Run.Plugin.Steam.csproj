@@ -4,6 +4,9 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <RootNamespace>Community.PowerToys.Run.Plugin.Steam</RootNamespace>
     <AssemblyName>Community.PowerToys.Run.Plugin.Steam</AssemblyName>
+
+    <Version>0.1.0</Version>
+
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
